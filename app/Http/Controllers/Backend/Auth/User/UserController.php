@@ -44,8 +44,8 @@ class UserController extends Controller
     }
 
     /**
-     * @param ManageUserRequest    $request
-     * @param RoleRepository       $roleRepository
+     * @param ManageUserRequest $request
+     * @param RoleRepository $roleRepository
      * @param PermissionRepository $permissionRepository
      *
      * @return mixed
@@ -82,7 +82,7 @@ class UserController extends Controller
 
     /**
      * @param ManageUserRequest $request
-     * @param User              $user
+     * @param User $user
      *
      * @return mixed
      */
@@ -93,10 +93,10 @@ class UserController extends Controller
     }
 
     /**
-     * @param ManageUserRequest    $request
-     * @param RoleRepository       $roleRepository
+     * @param ManageUserRequest $request
+     * @param RoleRepository $roleRepository
      * @param PermissionRepository $permissionRepository
-     * @param User                 $user
+     * @param User $user
      *
      * @return mixed
      */
@@ -112,7 +112,7 @@ class UserController extends Controller
 
     /**
      * @param UpdateUserRequest $request
-     * @param User              $user
+     * @param User $user
      *
      * @return mixed
      * @throws \App\Exceptions\GeneralException
@@ -120,20 +120,20 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $this->userRepository->update($user, $request->only(
+        $this->userRepository->update($request->only(
             'first_name',
             'last_name',
             'email',
             'roles',
             'permissions'
-        ));
+        ), $user);
 
         return redirect()->route('admin.auth.user.index')->withFlashSuccess(__('alerts.backend.users.updated'));
     }
 
     /**
      * @param ManageUserRequest $request
-     * @param User              $user
+     * @param User $user
      *
      * @return mixed
      * @throws \Exception
