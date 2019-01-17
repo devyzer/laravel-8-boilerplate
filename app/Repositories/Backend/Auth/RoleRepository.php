@@ -66,7 +66,7 @@ class RoleRepository extends BaseRepository
      * @return mixed
      * @throws GeneralException
      */
-    public function update( $role,  $data)
+    public function update( array $data, $role)
     {
         if ($role->isAdmin()) {
             throw new GeneralException('You can not edit the administrator role.');

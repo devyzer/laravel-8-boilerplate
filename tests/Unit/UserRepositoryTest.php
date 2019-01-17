@@ -117,11 +117,11 @@ class UserRepositoryTest extends TestCase
         // We need at least one role to create a user
         $user = factory(User::class)->create();
 
-        $this->userRepository->update($user, $this->getValidUserData([
+        $this->userRepository->update($this->getValidUserData([
             'first_name' => 'updated',
             'last_name' => 'name',
             'email' => 'new@email.com',
-        ]));
+        ]), $user);
 
         $this->assertEquals('updated', $user->fresh()->first_name);
         $this->assertEquals('name', $user->fresh()->last_name);

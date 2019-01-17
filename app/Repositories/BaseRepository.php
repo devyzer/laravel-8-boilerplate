@@ -157,8 +157,8 @@ abstract class BaseRepository extends PrettusBaseRepository implements Repositor
      * @param       $id
      * @param array $data
      * @param array $options
-     *
      * @return Collection|Model
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function updateById($id, array $data, array $options = [])
     {
@@ -236,7 +236,7 @@ abstract class BaseRepository extends PrettusBaseRepository implements Repositor
     }
 
 
-    public function update($model, $attributes)
+    public function update(array $attributes, $model)
     {
 
         if ($model instanceof Model)
