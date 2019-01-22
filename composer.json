@@ -26,6 +26,7 @@
         "spatie/laravel-sluggable": "^2.1",
         "torann/geoip": "^1.0",
         "predis/predis": "^1.1",
+      "kyslik/column-sortable": "^5.7",
         "webpatser/laravel-uuid": "^3.0"
     },
     "require-dev": {

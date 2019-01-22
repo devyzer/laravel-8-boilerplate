@@ -177,7 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
     ],
 
     /*

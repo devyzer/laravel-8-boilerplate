@@ -244,4 +244,13 @@ abstract class BaseRepository extends PrettusBaseRepository implements Repositor
         else
             parent::update($attributes, $model);
     }
+
+
+    public function getPaginatedAndSortable($paged = 25, $condions_array = null)
+    {
+        if ($condions_array) {
+            return $this->model->where($condions_array)->sortable()->paginate($paged)->sortable();
+        }
+        return $this->model->sortable()->paginate($paged);
+    }
 }
