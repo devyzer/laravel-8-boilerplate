@@ -4,6 +4,7 @@
 public/images
 /storage/*.key
 /vendor
+/.devyzer
 /.idea
 /.vagrant
 /nbproject
