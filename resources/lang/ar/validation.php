@@ -176,7 +176,8 @@ return [
                     'password_confirmation'   => 'تأكيد كلمة المرور',
                     'send_confirmation_email' => 'إرسال رسالة التفعيل',
                 ],
-            ],
+            ]
+            // Do not delete me :) I'm used for auto-generation
         ],
 
         'frontend' => [

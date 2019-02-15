@@ -100,7 +100,9 @@ return [
 
                 'view' => 'View User',
             ],
-        ],
+        ]
+
+        // Do not delete me :) I'm used for auto-generation
     ],
 
     'frontend' => [

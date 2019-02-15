@@ -26,6 +26,7 @@ return [
             'title'   => 'لوحة تحكم الإدارة',
             'welcome' => 'أهلاً وسهلاً',
         ],
+        // Do not delete me :) I'm used for auto-generation
 
         'general' => [
             'all_rights_reserved' => 'جميع الحقوق محفوظة.',
