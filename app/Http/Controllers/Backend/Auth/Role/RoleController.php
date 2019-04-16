@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Backend\Auth\Role;
 
-use App\Events\Backend\Auth\Role\RoleDeleted;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\Auth\Role\ManageRoleRequest;
-use App\Http\Requests\Backend\Auth\Role\StoreRoleRequest;
-use App\Http\Requests\Backend\Auth\Role\UpdateRoleRequest;
 use App\Models\Auth\Role;
-use App\Repositories\Backend\Auth\PermissionRepository;
+use App\Http\Controllers\Controller;
+use App\Events\Backend\Auth\Role\RoleDeleted;
 use App\Repositories\Backend\Auth\RoleRepository;
+use App\Repositories\Backend\Auth\PermissionRepository;
+use App\Http\Requests\Backend\Auth\Role\StoreRoleRequest;
+use App\Http\Requests\Backend\Auth\Role\ManageRoleRequest;
+use App\Http\Requests\Backend\Auth\Role\UpdateRoleRequest;
 
 /**
  * Class RoleController.
@@ -27,7 +27,7 @@ class RoleController extends Controller
     protected $permissionRepository;
 
     /**
-     * @param RoleRepository $roleRepository
+     * @param RoleRepository       $roleRepository
      * @param PermissionRepository $permissionRepository
      */
     public function __construct(RoleRepository $roleRepository, PermissionRepository $permissionRepository)
@@ -45,9 +45,9 @@ class RoleController extends Controller
     {
         return view('backend.auth.role.index')
             ->withRoles($this->roleRepository
-                ->with('users', 'permissions')
-                ->orderBy('id', 'asc')
-                ->paginate(25));
+            ->with('users', 'permissions')
+            ->orderBy('id')
+            ->paginate());
     }
 
     /**
@@ -64,8 +64,8 @@ class RoleController extends Controller
     /**
      * @param StoreRoleRequest $request
      *
-     * @return mixed
      * @throws \App\Exceptions\GeneralException
+     * @return mixed
      */
     public function store(StoreRoleRequest $request)
     {
@@ -76,7 +76,7 @@ class RoleController extends Controller
 
     /**
      * @param ManageRoleRequest $request
-     * @param Role $role
+     * @param Role              $role
      *
      * @return mixed
      */
@@ -94,23 +94,24 @@ class RoleController extends Controller
 
     /**
      * @param UpdateRoleRequest $request
-     * @param Role $role
+     * @param Role              $role
      *
-     * @return mixed
      * @throws \App\Exceptions\GeneralException
+     * @return mixed
      */
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        $this->roleRepository->update($request->only('name', 'permissions'), $role);
+        $this->roleRepository->update($role, $request->only('name', 'permissions'));
+
         return redirect()->route('admin.auth.role.index')->withFlashSuccess(__('alerts.backend.roles.updated'));
     }
 
     /**
      * @param ManageRoleRequest $request
-     * @param Role $role
+     * @param Role              $role
      *
-     * @return mixed
      * @throws \Exception
+     * @return mixed
      */
     public function destroy(ManageRoleRequest $request, Role $role)
     {

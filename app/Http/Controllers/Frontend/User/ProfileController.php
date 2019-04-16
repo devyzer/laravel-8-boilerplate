@@ -29,13 +29,14 @@ class ProfileController extends Controller
     /**
      * @param UpdateProfileRequest $request
      *
-     * @return mixed
      * @throws \App\Exceptions\GeneralException
+     * @return mixed
      */
     public function update(UpdateProfileRequest $request)
     {
         $output = $this->userRepository->update(
-            $request->only('first_name', 'last_name', 'email', 'avatar_type', 'avatar_location'), $request->user()->id,
+            $request->user()->id,
+            $request->only('first_name', 'last_name', 'email', 'avatar_type', 'avatar_location'),
             $request->has('avatar_location') ? $request->file('avatar_location') : false
         );
 

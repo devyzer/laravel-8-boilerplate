@@ -18,7 +18,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        GeneralException::class,
     ];
 
     /**
@@ -34,8 +34,10 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
-     * @return void
+     * @param Exception $exception
+     *
+     * @throws Exception
+     * @return mixed|void
      */
     public function report(Exception $exception)
     {

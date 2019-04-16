@@ -29,8 +29,6 @@ class GeneralException extends Exception
 
     /**
      * Report the exception.
-     *
-     * @return void
      */
     public function report()
     {
@@ -45,12 +43,10 @@ class GeneralException extends Exception
      */
     public function render($request)
     {
-        /*
-         * All instances of GeneralException redirect back with a flash message to show a bootstrap alert-error
-         */
+        // All instances of GeneralException redirect back with a flash message to show a bootstrap alert-error
         return redirect()
             ->back()
-            ->withInput($request->except('password', 'password_confirmation'))
+            ->withInput()
             ->withFlashDanger($this->message);
     }
 }

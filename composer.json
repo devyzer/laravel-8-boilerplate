@@ -33,7 +33,9 @@
         "spatie/laravel-permission": "^2.5",
         "spatie/laravel-sluggable": "^2.1",
         "torann/geoip": "^1.0",
-        "webpatser/laravel-uuid": "^3.0"
+        "webpatser/laravel-uuid": "^3.0",
+        "albertcht/invisible-recaptcha": "^1.9",
+        "owen-it/laravel-auditing": "^9.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
@@ -45,7 +47,8 @@
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^7.0",
+        "roave/security-advisories": "dev-master"
     },
     "autoload": {
         "classmap": [
@@ -113,7 +116,13 @@
             "./vendor/bin/php-cs-fixer fix database/  --show-progress=estimating",
             "./vendor/bin/php-cs-fixer fix resources/  --show-progress=estimating",
             "./vendor/bin/php-cs-fixer fix routes/  --show-progress=estimating",
-            "./vendor/bin/php-cs-fixer fix tests/  --show-progress=estimating"
+            "./vendor/bin/php-cs-fixer fix tests/  --show-progress=estimating",
+            "php-cs-fixer fix --show-progress=estimating --config=.php_cs.dist"
+        ],
+        "self-diagnosis": [
+            "@composer validate",
+            "@php artisan self-diagnosis",
+            "npm audit"
         ]
     },
     "config": {
