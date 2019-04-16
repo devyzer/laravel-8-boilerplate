@@ -26,7 +26,6 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "~5.0",
-        "litecms/pricelist": "^2.0",
         "predis/predis": "^1.1",
         "prettus/l5-repository": "^2.6",
         "sofa/eloquence": "^5.6",
