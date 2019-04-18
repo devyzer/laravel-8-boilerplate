@@ -25,18 +25,18 @@ class RoleRepository extends BaseRepository
     /**
      * @param array $data
      *
-     * @throws GeneralException
-     * @throws \Throwable
      * @return Role
+     * @throws \Throwable
+     * @throws GeneralException
      */
-    public function create(array $data) : Role
+    public function create(array $data): Role
     {
         // Make sure it doesn't already exist
         if ($this->roleExists($data['name'])) {
-            throw new GeneralException('A role already exists with the name '.e($data['name']));
+            throw new GeneralException('A role already exists with the name ' . e($data['name']));
         }
 
-        if (! isset($data['permissions']) || ! \count($data['permissions'])) {
+        if (!isset($data['permissions']) || !\count($data['permissions'])) {
             $data['permissions'] = [];
         }
 
@@ -61,14 +61,14 @@ class RoleRepository extends BaseRepository
     }
 
     /**
-     * @param Role  $role
+     * @param Role $role
      * @param array $data
      *
-     * @throws GeneralException
-     * @throws \Throwable
      * @return mixed
+     * @throws \Throwable
+     * @throws GeneralException
      */
-    public function update(Role $role, array $data)
+    public function update(array $data, $role)
     {
         if ($role->isAdmin()) {
             throw new GeneralException('You can not edit the administrator role.');
@@ -77,11 +77,11 @@ class RoleRepository extends BaseRepository
         // If the name is changing make sure it doesn't already exist
         if ($role->name !== strtolower($data['name'])) {
             if ($this->roleExists($data['name'])) {
-                throw new GeneralException('A role already exists with the name '.$data['name']);
+                throw new GeneralException('A role already exists with the name ' . $data['name']);
             }
         }
 
-        if (! isset($data['permissions']) || ! \count($data['permissions'])) {
+        if (!isset($data['permissions']) || !\count($data['permissions'])) {
             $data['permissions'] = [];
         }
 
@@ -110,10 +110,10 @@ class RoleRepository extends BaseRepository
      *
      * @return bool
      */
-    protected function roleExists($name) : bool
+    protected function roleExists($name): bool
     {
         return $this->model
-            ->where('name', strtolower($name))
-            ->count() > 0;
+                ->where('name', strtolower($name))
+                ->count() > 0;
     }
 }

@@ -35,7 +35,7 @@ class UserRepository extends BaseRepository
     /**
      * @return mixed
      */
-    public function getUnconfirmedCount() : int
+    public function getUnconfirmedCount(): int
     {
         return $this->model
             ->where('confirmed', false)
@@ -43,13 +43,13 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * @param int    $paged
+     * @param int $paged
      * @param string $orderBy
      * @param string $sort
      *
      * @return mixed
      */
-    public function getActivePaginated($paged = 25, $orderBy = 'created_at', $sort = 'desc') : LengthAwarePaginator
+    public function getActivePaginated($paged = 25, $orderBy = 'created_at', $sort = 'desc'): LengthAwarePaginator
     {
         return $this->model
             ->with('roles', 'permissions', 'providers')
@@ -59,13 +59,13 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * @param int    $paged
+     * @param int $paged
      * @param string $orderBy
      * @param string $sort
      *
      * @return LengthAwarePaginator
      */
-    public function getInactivePaginated($paged = 25, $orderBy = 'created_at', $sort = 'desc') : LengthAwarePaginator
+    public function getInactivePaginated($paged = 25, $orderBy = 'created_at', $sort = 'desc'): LengthAwarePaginator
     {
         return $this->model
             ->with('roles', 'permissions', 'providers')
@@ -75,13 +75,13 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * @param int    $paged
+     * @param int $paged
      * @param string $orderBy
      * @param string $sort
      *
      * @return LengthAwarePaginator
      */
-    public function getDeletedPaginated($paged = 25, $orderBy = 'created_at', $sort = 'desc') : LengthAwarePaginator
+    public function getDeletedPaginated($paged = 25, $orderBy = 'created_at', $sort = 'desc'): LengthAwarePaginator
     {
         return $this->model
             ->with('roles', 'permissions', 'providers')
@@ -93,11 +93,11 @@ class UserRepository extends BaseRepository
     /**
      * @param array $data
      *
-     * @throws \Exception
-     * @throws \Throwable
      * @return User
+     * @throws \Throwable
+     * @throws \Exception
      */
-    public function create(array $data) : User
+    public function create(array $data): User
     {
         return DB::transaction(function () use ($data) {
             $user = parent::create([
@@ -111,13 +111,13 @@ class UserRepository extends BaseRepository
             ]);
 
             // See if adding any additional permissions
-            if (! isset($data['permissions']) || ! count($data['permissions'])) {
+            if (!isset($data['permissions']) || !count($data['permissions'])) {
                 $data['permissions'] = [];
             }
 
             if ($user) {
                 // User must have at least one role
-                if (! count($data['roles'])) {
+                if (!count($data['roles'])) {
                     throw new GeneralException(__('exceptions.backend.access.users.role_needed_create'));
                 }
 
@@ -126,7 +126,7 @@ class UserRepository extends BaseRepository
                 $user->syncPermissions($data['permissions']);
 
                 //Send confirmation email if requested and account approval is off
-                if ($user->confirmed === false && isset($data['confirmation_email']) && ! config('access.users.requires_approval')) {
+                if ($user->confirmed === false && isset($data['confirmation_email']) && !config('access.users.requires_approval')) {
                     $user->notify(new UserNeedsConfirmation($user->confirmation_code));
                 }
 
@@ -140,20 +140,20 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * @param User  $user
+     * @param User $user
      * @param array $data
      *
-     * @throws GeneralException
+     * @return User
      * @throws \Exception
      * @throws \Throwable
-     * @return User
+     * @throws GeneralException
      */
-    public function update(User $user, array $data) : User
+    public function update(array $data, $user): User
     {
         $this->checkUserByEmail($user, $data['email']);
 
         // See if adding any additional permissions
-        if (! isset($data['permissions']) || ! count($data['permissions'])) {
+        if (!isset($data['permissions']) || !count($data['permissions'])) {
             $data['permissions'] = [];
         }
 
@@ -180,10 +180,10 @@ class UserRepository extends BaseRepository
      * @param User $user
      * @param      $input
      *
-     * @throws GeneralException
      * @return User
+     * @throws GeneralException
      */
-    public function updatePassword(User $user, $input) : User
+    public function updatePassword(User $user, $input): User
     {
         if ($user->update(['password' => $input['password']])) {
             event(new UserPasswordChanged($user));
@@ -198,10 +198,10 @@ class UserRepository extends BaseRepository
      * @param User $user
      * @param      $status
      *
-     * @throws GeneralException
      * @return User
+     * @throws GeneralException
      */
-    public function mark(User $user, $status) : User
+    public function mark(User $user, $status): User
     {
         if ($status === 0 && auth()->id() === $user->id) {
             throw new GeneralException(__('exceptions.backend.access.users.cant_deactivate_self'));
@@ -212,10 +212,10 @@ class UserRepository extends BaseRepository
         switch ($status) {
             case 0:
                 event(new UserDeactivated($user));
-            break;
+                break;
             case 1:
                 event(new UserReactivated($user));
-            break;
+                break;
         }
 
         if ($user->save()) {
@@ -228,10 +228,10 @@ class UserRepository extends BaseRepository
     /**
      * @param User $user
      *
-     * @throws GeneralException
      * @return User
+     * @throws GeneralException
      */
-    public function confirm(User $user) : User
+    public function confirm(User $user): User
     {
         if ($user->confirmed) {
             throw new GeneralException(__('exceptions.backend.access.users.already_confirmed'));
@@ -257,12 +257,12 @@ class UserRepository extends BaseRepository
     /**
      * @param User $user
      *
-     * @throws GeneralException
      * @return User
+     * @throws GeneralException
      */
-    public function unconfirm(User $user) : User
+    public function unconfirm(User $user): User
     {
-        if (! $user->confirmed) {
+        if (!$user->confirmed) {
             throw new GeneralException(__('exceptions.backend.access.users.not_confirmed'));
         }
 
@@ -291,12 +291,12 @@ class UserRepository extends BaseRepository
     /**
      * @param User $user
      *
-     * @throws GeneralException
+     * @return User
      * @throws \Exception
      * @throws \Throwable
-     * @return User
+     * @throws GeneralException
      */
-    public function forceDelete(User $user) : User
+    public function forceDelete(User $user): User
     {
         if ($user->deleted_at === null) {
             throw new GeneralException(__('exceptions.backend.access.users.delete_first'));
@@ -320,10 +320,10 @@ class UserRepository extends BaseRepository
     /**
      * @param User $user
      *
-     * @throws GeneralException
      * @return User
+     * @throws GeneralException
      */
-    public function restore(User $user) : User
+    public function restore(User $user): User
     {
         if ($user->deleted_at === null) {
             throw new GeneralException(__('exceptions.backend.access.users.cant_restore'));
